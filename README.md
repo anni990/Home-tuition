@@ -62,7 +62,7 @@ flask db upgrade
 
 7. Run the application:
 ```bash
-flask run
+python run.py
 ```
 
 Visit `http://localhost:5000` in your browser.
