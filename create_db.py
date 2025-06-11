@@ -1,0 +1,17 @@
+from app import create_app, db
+from app.models.models import User, Tutor, Subject, Booking, Testimonial, ContactMessage
+
+app = create_app()
+
+def init_db():
+    with app.app_context():
+        # Drop all tables
+        db.drop_all()
+        
+        # Create all tables
+        db.create_all()
+        
+        print("Database initialized successfully!")
+
+if __name__ == '__main__':
+    init_db() 

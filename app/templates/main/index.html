@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Elite Tuition - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-primary-light to-secondary-light">
+    <div class="container mx-auto px-4 py-20">
+        <div class="flex flex-col md:flex-row items-center justify-between" data-aos="fade-up">
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    Transform Your Learning Journey
+                </h1>
+                <h2 class="text-2xl text-gray-600 mb-8">
+                    Expert Home Tuition for Academic Excellence
+                </h2>
+                <p class="text-xl text-gray-600 mb-8">
+                    Personalized one-on-one instruction tailored to your learning style. Our qualified tutors help students achieve their full potential through dedicated guidance.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="{{ url_for('booking.book_session') }}" 
+                        class="bg-primary text-white px-8 py-3 rounded-lg hover:bg-secondary transition duration-300 hover-scale">
+                        Book a Demo
+                    </a>
+                    <a href="{{ url_for('auth.register') }}" 
+                        class="bg-white text-primary px-8 py-3 rounded-lg hover:bg-gray-50 transition duration-300 hover-scale border-2 border-primary">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center" data-aos="fade-left" data-aos-delay="200">
+                <img src="{{ url_for('static', filename='images/hero-image.jpg') }}" alt="Tuition" 
+                    class="rounded-lg shadow-xl hover-scale max-w-md w-full">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-up">Why Choose Elite Tuition?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-primary text-4xl mb-4">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Expert Tutors</h3>
+                <p class="text-gray-600">Our tutors are highly qualified professionals with proven track records in their subjects.</p>
+            </div>
+            <div class="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-primary text-4xl mb-4">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Personalized Learning</h3>
+                <p class="text-gray-600">Customized learning plans designed to meet your specific needs and goals.</p>
+            </div>
+            <div class="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300" data-aos="fade-up" data-aos-delay="300">
+                <div class="text-primary text-4xl mb-4">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Proven Results</h3>
+                <p class="text-gray-600">Track record of improving grades and building confidence in students.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Subjects Section -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-up">Subjects We Offer</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {% for subject in ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English', 'History', 'Geography', 'Computer Science'] %}
+            <div class="p-6 bg-white rounded-lg shadow hover:shadow-lg transition duration-300" 
+                data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <h3 class="text-xl font-semibold mb-2">{{ subject }}</h3>
+                <p class="text-gray-600">Expert tutoring for all levels</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-up">How It Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">1</div>
+                <h3 class="text-xl font-semibold mb-2">Book a Demo</h3>
+                <p class="text-gray-600">Schedule your free consultation session</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">2</div>
+                <h3 class="text-xl font-semibold mb-2">Meet Your Tutor</h3>
+                <p class="text-gray-600">Get matched with the perfect tutor</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">3</div>
+                <h3 class="text-xl font-semibold mb-2">Personalized Plan</h3>
+                <p class="text-gray-600">Receive a customized learning plan</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">4</div>
+                <h3 class="text-xl font-semibold mb-2">Start Learning</h3>
+                <p class="text-gray-600">Begin your journey to success</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-up">What Our Students Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for testimonial in testimonials %}
+            <div class="p-6 bg-white rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="flex items-center mb-4">
+                    <div class="flex-shrink-0">
+                        <img class="h-12 w-12 rounded-full" src="{{ url_for('static', filename='images/avatar-placeholder.jpg') }}" alt="Student">
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-lg font-semibold">{{ testimonial.user.name }}</h4>
+                        <div class="flex text-yellow-400">
+                            {% for _ in range(testimonial.rating) %}
+                            <svg class="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                            </svg>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600">{{ testimonial.comment }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-primary">
+    <div class="container mx-auto px-4 text-center" data-aos="fade-up">
+        <h2 class="text-3xl font-bold text-white mb-8">Ready to Start Your Learning Journey?</h2>
+        <p class="text-xl text-white mb-8">Book your free demo session today and experience the difference.</p>
+        <a href="{{ url_for('booking.book_session') }}" 
+            class="inline-block bg-white text-primary px-8 py-3 rounded-lg hover:bg-gray-100 transition duration-300 hover-scale">
+            Book Your Free Demo
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %} 

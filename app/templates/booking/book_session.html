@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}Book a Session - Elite Tuition{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-primary-light">
+    <div class="container mx-auto px-4 py-20">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Book a Demo Session</h1>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Home Tuition Service</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Take the first step towards academic excellence. Book a session with one of our expert tutors.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Form -->
+<section class="py-20">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <form method="POST" action="{{ url_for('booking.book_session') }}" class="space-y-6">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    
+                    <!-- Tutor Selection -->
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-semibold text-gray-800">Select Your Tutor</h3>
+                        
+                        <div>
+                            <label for="tutor_id" class="block text-gray-700 font-medium mb-2">Choose a Tutor *</label>
+                            <select id="tutor_id" name="tutor_id" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option value="">Select a tutor...</option>
+                                {% for tutor in tutors %}
+                                <option value="{{ tutor.id }}" {% if request.args.get('tutor') == tutor.id|string %}selected{% endif %}>
+                                    {{ tutor.name }} - {{ tutor.qualification }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Tutor Preview -->
+                        <div id="tutor_preview" class="hidden">
+                            <div class="bg-primary-light rounded-lg p-4 mt-4">
+                                <div class="flex items-start space-x-4">
+                                    <img id="tutor_image" src="" alt="Tutor"
+                                         class="w-24 h-24 rounded-full object-cover">
+                                    <div>
+                                        <h4 id="tutor_name" class="text-lg font-semibold text-gray-800"></h4>
+                                        <p id="tutor_qualification" class="text-gray-600"></p>
+                                        <p id="tutor_experience" class="text-gray-600 mt-2"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Subject Selection -->
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-semibold text-gray-800">Choose Your Subject</h3>
+                        
+                        <div>
+                            <label for="subject_id" class="block text-gray-700 font-medium mb-2">Select a Subject *</label>
+                            <select id="subject_id" name="subject_id" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option value="">First select a tutor...</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Session Details -->
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-semibold text-gray-800">Session Details</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="date" class="block text-gray-700 font-medium mb-2">Select Date *</label>
+                                <input type="date" id="date" name="date" required
+                                       min="{{ today }}"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                            
+                            <div>
+                                <label for="time_slot" class="block text-gray-700 font-medium mb-2">Select Time Slot *</label>
+                                <select id="time_slot" name="time_slot" required
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    <option value="">Select a time slot...</option>
+                                    {% for slot in time_slots %}
+                                    <option value="{{ slot }}">{{ slot }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="pt-6">
+                        <button type="submit"
+                                class="w-full bg-secondary text-white px-8 py-3 rounded-lg hover:bg-primary transition duration-300 hover-scale">
+                            Book Session
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Note -->
+            <div class="mt-8 text-center text-gray-600">
+                <p>Note: Session booking is subject to tutor availability and confirmation.</p>
+                <p class="mt-2">Need help? <a href="{{ url_for('main.contact') }}" class="text-primary hover:text-secondary">Contact us</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Update tutor preview when a tutor is selected
+    document.getElementById('tutor_id').addEventListener('change', async function() {
+        const tutorId = this.value;
+        const tutorPreview = document.getElementById('tutor_preview');
+        const subjectSelect = document.getElementById('subject_id');
+        
+        if (!tutorId) {
+            tutorPreview.classList.add('hidden');
+            subjectSelect.innerHTML = '<option value="">First select a tutor...</option>';
+            return;
+        }
+        
+        // Get tutor details from the selected option
+        const selectedOption = this.options[this.selectedIndex];
+        const tutorName = selectedOption.text.split(' - ')[0];
+        const tutorQualification = selectedOption.text.split(' - ')[1];
+        
+        // Update tutor preview
+        document.getElementById('tutor_name').textContent = tutorName;
+        document.getElementById('tutor_qualification').textContent = tutorQualification;
+        
+        // Get tutor's subjects
+        try {
+            const response = await fetch(`{{ url_for('booking.get_tutor_subjects', tutor_id=0) }}`.replace('0', tutorId));
+            const subjects = await response.json();
+            
+            // Update subject select
+            subjectSelect.innerHTML = '<option value="">Select a subject...</option>';
+            subjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject.id;
+                option.textContent = subject.name;
+                subjectSelect.appendChild(option);
+            });
+            
+            tutorPreview.classList.remove('hidden');
+        } catch (error) {
+            console.error('Error fetching tutor subjects:', error);
+        }
+    });
+    
+    // Trigger change event if tutor is pre-selected (from URL parameter)
+    window.addEventListener('load', function() {
+        const tutorSelect = document.getElementById('tutor_id');
+        if (tutorSelect.value) {
+            tutorSelect.dispatchEvent(new Event('change'));
+        }
+    });
+    
+    // Date validation
+    document.getElementById('date').addEventListener('input', function() {
+        const selectedDate = new Date(this.value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (selectedDate < today) {
+            this.setCustomValidity('Please select a future date');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+</script>
+{% endblock %} 
