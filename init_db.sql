@@ -11,7 +11,8 @@ CREATE TABLE users (
     email VARCHAR(120) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     name VARCHAR(100) NOT NULL,
-    is_admin BOOLEAN DEFAULT FALSE
+    is_admin BOOLEAN DEFAULT FALSE,
+    phone VARCHAR(20)
 );
 
 -- Create tutors table
@@ -23,14 +24,16 @@ CREATE TABLE tutors (
     qualification VARCHAR(200),
     experience TEXT,
     bio TEXT,
-    is_verified BOOLEAN DEFAULT FALSE
+    is_verified BOOLEAN DEFAULT FALSE,
+    phone VARCHAR(20)
 );
 
 -- Create subjects table
 CREATE TABLE subjects (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    level VARCHAR(50) NOT NULL
+    level VARCHAR(50) NOT NULL,
+    description VARCHAR(255)
 );
 
 -- Create bookings table
