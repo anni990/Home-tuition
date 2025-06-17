@@ -21,8 +21,8 @@ def create_app():
     
     # Configuration
     app.config['SECRET_KEY'] = 'dev-key-change-in-production'
-    # XAMPP default configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/home_tuition'
+    # XAMPP default configuration from .env file
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # Initialize extensions with app
